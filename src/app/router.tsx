@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom'
 import { PostsPage, PostPage } from '@pages/posts'
 import { LoginPage } from '@pages/auth/ui/loginPage.tsx'
 import { RegisterPage } from '@pages/auth'
-import { ProtectedRoute } from './providers/ProtectedRoute'
 import { PublicOnlyRoute } from './providers/PublicOnlyRoute.tsx'
 
 const router = createBrowserRouter([

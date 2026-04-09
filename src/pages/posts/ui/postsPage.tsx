@@ -1,8 +1,11 @@
 import { Navbar } from '@widgets/navbar'
 import { PostFeed } from '@widgets/postFeed'
 import { CreatePostModal } from '@widgets/createPostModal'
+import { useAuth } from '@app/providers/useAuth.ts'
 
 export function PostsPage() {
+  const { isAuthenticated } = useAuth()
+
   return (
     <>
       <Navbar />
@@ -17,7 +20,7 @@ export function PostsPage() {
           }}
         >
           <h1 style={{ margin: 0 }}>Posts</h1>
-          <CreatePostModal />
+          {isAuthenticated ? <CreatePostModal /> : <></>}
         </div>
 
         <PostFeed />

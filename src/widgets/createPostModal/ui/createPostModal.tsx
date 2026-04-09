@@ -71,7 +71,7 @@ export function CreatePostModal() {
         >
           <input type="text" name="name" placeholder="Name" required />
           <input type="text" name="description" placeholder="Description" required />
-          <textarea name="markdownContent" required />
+          <textarea name="markdownContent" placeholder="Content" required />
 
           <Button type={'submit'}>Create</Button>
         </form>

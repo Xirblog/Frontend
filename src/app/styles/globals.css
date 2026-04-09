@@ -53,15 +53,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: var(--bg-dark);
+  background: var(--bg-dark);
   color: var(--text-color);
   background-image:
-    radial-gradient(circle at 15% 50%, rgba(0, 255, 255, 0.1), transparent 40%),
-    radial-gradient(circle at 85% 30%, rgba(0, 255, 255, 0.15), transparent 45%),
-    radial-gradient(circle at 50% 80%, rgba(0, 255, 255, 0.08), transparent 50%),
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+    radial-gradient(ellipse 80% 80% at 20% -20%, hsla(176, 100%, 50%, 0.06), transparent),
+    radial-gradient(ellipse 80% 80% at 80% 120%, hsla(217, 100%, 50%, 0.06), transparent),
+    radial-gradient(ellipse 60% 80% at 90% 10%, hsla(351, 65%, 75%, 0.04), transparent),
+    radial-gradient(ellipse 80% 60% at 10% 90%, hsla(152, 12%, 35%, 0.04), transparent);
   background-attachment: fixed;
   min-height: 100vh;
 }
@@ -166,7 +164,6 @@ ol {
   border-top: solid 1px var(--highlight);
   margin-bottom: 2rem;
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
   border-radius: 12px;
   position: relative;
   box-shadow: var(--shadow);
@@ -229,7 +226,6 @@ ol {
   gap: 0.5rem;
   padding: 1.5rem;
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
   border: var(--border-card);
   border-top: solid 1px var(--highlight);
   border-radius: 12px;
@@ -245,7 +241,6 @@ ol {
 
 .post-page {
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
   border: var(--border-card);
   border-top: solid 1px var(--highlight);
   border-radius: 16px;
@@ -265,7 +260,6 @@ input, textarea {
   box-sizing: border-box;
   margin-bottom: 1rem;
   font-family: inherit;
-  backdrop-filter: blur(10px);
   outline: none;
 }
 
@@ -277,7 +271,6 @@ input:focus, textarea:focus {
 
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.75) !important;
-  backdrop-filter: blur(5px);
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -288,7 +281,6 @@ input:focus, textarea:focus {
   position: relative !important;
   inset: auto !important;
   background: var(--card-bg) !important;
-  backdrop-filter: blur(20px) !important;
   border: var(--border-card) !important;
   border-top: solid 1px var(--highlight) !important;
   border-radius: 16px !important;

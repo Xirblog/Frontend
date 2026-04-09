@@ -4,6 +4,8 @@ import { Button } from '@shared/ui/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@app/providers/useAuth.ts'
 import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 export function Navbar() {
   const { isAuthenticated, logout } = useAuth()
@@ -24,7 +26,7 @@ export function Navbar() {
           }}
           aria-label="Toggle Menu"
         >
-          ☰
+          <FontAwesomeIcon icon={faBars} />
         </button>
       </div>
 
