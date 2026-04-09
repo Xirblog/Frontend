@@ -1,4 +1,4 @@
-import { apiClient } from '@shared/api/api-client'
+import { apiClient } from '@shared/api/apiClient.ts'
 import type { User } from '../model/user'
 
 export function fetchUsers() {
