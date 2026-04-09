@@ -1,12 +1,14 @@
 import { Navbar } from '@widgets/navbar'
 import { register, type RegisterRequest } from '@pages/auth/api/register.ts'
 import { useAuth } from '@app/providers/useAuth'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
 
 export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
   const { login } = useAuth()
+  const navigate = useNavigate()
 
   function getStringField(formData: FormData, fieldName: string): string {
     const value = formData.get(fieldName)
@@ -36,6 +38,7 @@ export function RegisterPage() {
       }
 
       login(access_token, refresh_token)
+      void navigate('/', { replace: true })
 
       console.log('Successfully registered')
     } catch (error) {
