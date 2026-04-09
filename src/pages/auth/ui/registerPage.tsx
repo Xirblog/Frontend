@@ -32,13 +32,12 @@ export function RegisterPage() {
 
       const response = await register(request)
 
-      const { access_token, refresh_token } = response.data as {
-        access_token: string
-        refresh_token: string
+      if (response.status >= 200 && response.status < 300) {
+        login()
+        void navigate('/', { replace: true })
+      } else {
+        void navigate('/login', { replace: true })
       }
-
-      login(access_token, refresh_token)
-      void navigate('/', { replace: true })
 
       console.log('Successfully registered')
     } catch (error) {

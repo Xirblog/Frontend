@@ -2,23 +2,18 @@ import { useState, type ReactNode } from 'react'
 import { AuthContext } from './AuthContext'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [accessToken, setAccessToken] = useState<string | null>(() =>
-    localStorage.getItem('access_token'),
-  )
-  const [refreshToken, setRefreshToken] = useState<string | null>(() =>
-    localStorage.getItem('refresh_token'),
-  )
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('is_authenticated') === 'true'
+  })
 
-  const login = (access: string, refresh: string) => {
-    setAccessToken(access)
-    setRefreshToken(refresh)
-    localStorage.setItem('access_token', access)
-    localStorage.setItem('refresh_token', refresh)
+  const login = () => {
+    setIsAuthenticated(true)
+    localStorage.setItem('is_authenticated', 'true')
   }
 
   const logout = () => {
-    setAccessToken(null)
-    setRefreshToken(null)
+    setIsAuthenticated(false)
+    localStorage.removeItem('is_authenticated')
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')
   }
@@ -26,9 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext
       value={{
-        accessToken,
-        refreshToken,
-        isAuthenticated: !!accessToken,
+        isAuthenticated,
         login,
         logout,
       }}

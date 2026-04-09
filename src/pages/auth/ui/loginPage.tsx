@@ -29,13 +29,10 @@ export function LoginPage() {
 
       const response = await login(request)
 
-      const { access_token, refresh_token } = response.data as {
-        access_token: string
-        refresh_token: string
+      if (response.status >= 200 && response.status < 300) {
+        authLogin()
+        void navigate('/', { replace: true })
       }
-
-      authLogin(access_token, refresh_token)
-      void navigate('/', { replace: true })
 
       console.log('Successfully logged in.')
     } catch (error) {
