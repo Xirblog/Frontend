@@ -34,6 +34,7 @@ export default defineConfig([
     },
     rules: {
       'prettier/prettier': 'error',
+      curly: ['error', 'all'],
 
       '@typescript-eslint/no-unused-vars': [
         'error',
