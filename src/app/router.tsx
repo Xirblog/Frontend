@@ -8,11 +8,7 @@ import { PublicOnlyRoute } from './providers/PublicOnlyRoute.tsx'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <ProtectedRoute>
-        <PostsPage />
-      </ProtectedRoute>
-    ),
+    element: <PostsPage />,
   },
   {
     path: '/post/:id',

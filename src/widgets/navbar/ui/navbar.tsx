@@ -1,5 +1,5 @@
 import { ThemeToggle } from '@features/toggleTheme'
-import { APP_NAME } from '@shared/config/routes'
+import { APP_NAME } from '@shared/config/env.ts'
 import { Button } from '@shared/ui/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@app/providers/useAuth.ts'
@@ -29,6 +29,10 @@ export function Navbar() {
       </div>
 
       <div className={`navbar-links ${isMobileMenuOpen ? 'open' : ''}`}>
+        <Link to="/">
+          <Button variant="text">Posts</Button>
+        </Link>
+
         {!isAuthenticated ? (
           <>
             <Link to="/login">
