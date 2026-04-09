@@ -15,6 +15,10 @@ export function fetchPosts() {
   return apiClient.get<Post[]>('/posts')
 }
 
-// export function fetchPostById(postId: string) {
-//   return apiClient.get<Post>(`/users/${postId}`)
-// }
+export function fetchPostById(postId: string) {
+  return apiClient.get<Post[]>(`/posts/${postId}`)
+}
+
+export function updatePost(postId: string, request: CreatePostRequest) {
+  return apiClient.put<string>(`/posts/${postId}`, request)
+}

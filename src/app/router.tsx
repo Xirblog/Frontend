@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { PostsPage } from '@pages/posts'
+import { PostsPage, PostPage } from '@pages/posts'
 import { LoginPage } from '@pages/auth/ui/loginPage.tsx'
 import { RegisterPage } from '@pages/auth'
 import { ProtectedRoute } from './providers/ProtectedRoute'
@@ -13,6 +13,10 @@ const router = createBrowserRouter([
         <PostsPage />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: '/post/:id',
+    element: <PostPage />,
   },
   {
     path: '/login',

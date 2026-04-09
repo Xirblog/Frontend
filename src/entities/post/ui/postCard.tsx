@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import type { Post } from '../model/post.ts'
 
 interface PostCardProps {
@@ -9,8 +10,10 @@ interface PostCardProps {
 export function PostCard({ post, actions }: PostCardProps) {
   return (
     <div className="post-card">
-      <span>{post.name}</span>
-      <span>{post.description}</span>
+      <Link to={`/post/${post.postId}`}>
+        <span>{post.name}</span>
+        <span>{post.description}</span>
+      </Link>
       {actions}
     </div>
   )
