@@ -33,7 +33,7 @@ export function PostFeed() {
   return (
     <>
       {posts.map((post) => (
-        <PostCard post={post} />
+        <PostCard key={post.postId} post={post} />
       ))}
     </>
   )
