@@ -108,14 +108,16 @@ export function PostPage() {
           }}
           contentLabel="Edit Post Modal"
         >
-          <h2>Edit Post</h2>
-          <Button
+          <button
+            className="modal-close-btn"
             onClick={() => {
               setIsEditing(false)
             }}
+            aria-label="Close"
           >
-            Close
-          </Button>
+            &times;
+          </button>
+          <h2 style={{ marginTop: 0 }}>Edit Post</h2>
           <form
             onSubmit={(e) => {
               void handleEditSubmit(e)

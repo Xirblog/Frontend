@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { SubmitEvent } from 'react'
 import { useAuth } from '@app/providers/useAuth.ts'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@shared/ui/button'
 
 export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -46,17 +47,19 @@ export function LoginPage() {
     <>
       <Navbar />
 
-      <main>
+      <main style={{ display: 'flex', justifyContent: 'center', marginTop: '4rem' }}>
         <form
+          style={{ width: '20%', minWidth: '300px', display: 'flex', flexDirection: 'column' }}
           onSubmit={(event) => {
             void handleSubmit(event)
           }}
         >
+          <h2 style={{ textAlign: 'center', marginBottom: '2rem', marginTop: 0 }}>Login</h2>
           <input type="text" name="username" placeholder="Username" required />
           <input type="password" name="password" placeholder="Password" required />
-          <button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading}>
             Login
-          </button>
+          </Button>
         </form>
       </main>
     </>

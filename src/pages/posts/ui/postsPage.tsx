@@ -8,9 +8,18 @@ export function PostsPage() {
       <Navbar />
 
       <main>
-        <h1>Posts</h1>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '1.5rem',
+          }}
+        >
+          <h1 style={{ margin: 0 }}>Posts</h1>
+          <CreatePostModal />
+        </div>
 
-        <CreatePostModal />
         <PostFeed />
       </main>
     </>

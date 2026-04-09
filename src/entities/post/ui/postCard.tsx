@@ -10,11 +10,14 @@ interface PostCardProps {
 export function PostCard({ post, actions }: PostCardProps) {
   return (
     <div className="post-card">
-      <Link to={`/post/${post.postId}`}>
-        <span>{post.name}</span>
-        <span>{post.description}</span>
+      <Link
+        to={`/post/${post.postId}`}
+        style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+      >
+        <h3 style={{ margin: 0, color: 'var(--primary-color)' }}>{post.name}</h3>
+        <span style={{ color: 'var(--text-color)', opacity: 0.8 }}>{post.description}</span>
       </Link>
-      {actions}
+      {actions && <div style={{ marginTop: '1rem' }}>{actions}</div>}
     </div>
   )
 }

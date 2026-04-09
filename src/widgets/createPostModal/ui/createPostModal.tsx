@@ -53,15 +53,16 @@ export function CreatePostModal() {
         }}
         contentLabel={'Create Post Modal'}
       >
-        <h2>Create Post</h2>
-
-        <Button
+        <button
+          className="modal-close-btn"
           onClick={() => {
             setIsOpen(false)
           }}
+          aria-label="Close"
         >
-          Close
-        </Button>
+          &times;
+        </button>
+        <h2 style={{ marginTop: 0 }}>Create Post</h2>
 
         <form
           onSubmit={(e) => {
