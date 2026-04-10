@@ -10,6 +10,7 @@ interface CreatePostModalProps {
 
 export function CreatePostModal({ onPostCreated }: CreatePostModalProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   function getStringField(formData: FormData, fieldName: string): string {
     const value = formData.get(fieldName)
@@ -18,6 +19,7 @@ export function CreatePostModal({ onPostCreated }: CreatePostModalProps) {
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
+    setErrorMsg(null)
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -36,11 +38,12 @@ export function CreatePostModal({ onPostCreated }: CreatePostModalProps) {
         if (onPostCreated) {
           void onPostCreated(post_id)
         }
+        setIsOpen(false)
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to create post, ', error)
-    } finally {
-      setIsOpen(false)
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to create post')
     }
   }
 
@@ -49,6 +52,7 @@ export function CreatePostModal({ onPostCreated }: CreatePostModalProps) {
       <Button
         onClick={() => {
           setIsOpen(true)
+          setErrorMsg(null)
         }}
       >
         Create Post
@@ -80,6 +84,7 @@ export function CreatePostModal({ onPostCreated }: CreatePostModalProps) {
           <input type="text" name="description" placeholder="Description" required />
           <textarea name="markdownContent" placeholder="Content" required />
 
+          {errorMsg && <div style={{ color: '#ff4d4f', marginBottom: '1rem' }}>{errorMsg}</div>}
           <Button type={'submit'}>Create</Button>
         </form>
       </Modal>

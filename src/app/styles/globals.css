@@ -240,13 +240,11 @@ ol {
 }
 
 .post-page {
-  background: var(--card-bg);
-  border: var(--border-card);
-  border-top: solid 1px var(--highlight);
-  border-radius: 16px;
-  padding: 2rem;
-  margin-top: 2rem;
-  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.post-page h1 {
+  font-size: 3.25rem;
 }
 
 input, textarea {

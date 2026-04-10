@@ -8,6 +8,7 @@ import { Button } from '@shared/ui/button'
 
 export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const { login } = useAuth()
   const navigate = useNavigate()
 
@@ -19,6 +20,7 @@ export function RegisterPage() {
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
+    setErrorMsg(null)
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -41,8 +43,10 @@ export function RegisterPage() {
       }
 
       console.log('Successfully registered')
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to register: ', error)
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to register')
     } finally {
       setIsLoading(false)
     }
@@ -65,6 +69,11 @@ export function RegisterPage() {
           <input type="text" name="lastName" placeholder="Last Name" required />
           <input type="password" name="password" placeholder="Password" required />
           <input type="number" name="age" placeholder="Age" min="1" max="100" required />
+          {errorMsg && (
+            <div style={{ color: '#ff4d4f', marginBottom: '1rem', textAlign: 'center' }}>
+              {errorMsg}
+            </div>
+          )}
           <Button type="submit" disabled={isLoading}>
             Register
           </Button>

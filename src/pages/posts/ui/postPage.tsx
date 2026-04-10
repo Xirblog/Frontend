@@ -14,6 +14,7 @@ export function PostPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthor, setIsAuthor] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadPost() {
@@ -52,6 +53,7 @@ export function PostPage() {
     if (!id) {
       return
     }
+    setErrorMsg(null)
 
     const formData = new FormData(event.currentTarget)
     const request: CreatePostRequest = {
@@ -66,8 +68,10 @@ export function PostPage() {
         setPost({ ...post, ...request } as Post)
         setIsEditing(false)
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to update post', error)
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to update post')
     }
   }
 
@@ -93,22 +97,31 @@ export function PostPage() {
     <>
       <Navbar />
       <div className="post-page">
-        <h1>{post.name}</h1>
-        <p>{post.description}</p>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '1.5rem',
+          }}
+        >
+          <h1 style={{ margin: 0 }}>{post.name}</h1>
+
+          {isAuthor && (
+            <Button
+              onClick={() => {
+                setIsEditing(true)
+                setErrorMsg(null)
+              }}
+            >
+              Edit Post
+            </Button>
+          )}
+        </div>
 
         <div className="markdown-content">
           <ReactMarkdown>{post.markdownContent}</ReactMarkdown>
         </div>
-
-        {isAuthor && (
-          <Button
-            onClick={() => {
-              setIsEditing(true)
-            }}
-          >
-            Edit Post
-          </Button>
-        )}
 
         {isAuthor && (
           <Modal
@@ -142,7 +155,22 @@ export function PostPage() {
                 rows={10}
                 cols={50}
               />
-              <Button type="submit">Save</Button>
+              {errorMsg && (
+                <div style={{ color: '#ff4d4f', marginBottom: '1rem', marginTop: '1rem' }}>
+                  {errorMsg}
+                </div>
+              )}
+              <div style={{ display: 'flex', gap: '1rem', marginTop: errorMsg ? '0' : '1rem' }}>
+                <Button type="submit">Save</Button>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setIsEditing(false)
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
             </form>
           </Modal>
         )}

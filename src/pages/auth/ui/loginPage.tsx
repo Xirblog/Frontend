@@ -8,6 +8,7 @@ import { Button } from '@shared/ui/button'
 
 export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const { login: authLogin } = useAuth()
   const navigate = useNavigate()
 
@@ -19,6 +20,7 @@ export function LoginPage() {
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
+    setErrorMsg(null)
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -36,8 +38,10 @@ export function LoginPage() {
       }
 
       console.log('Successfully logged in.')
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to login in: ', error)
+      const err = error as { response?: { data?: { message?: string } }; message?: string }
+      setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to login')
     } finally {
       setIsLoading(false)
     }
@@ -57,6 +61,11 @@ export function LoginPage() {
           <h2 style={{ textAlign: 'center', marginBottom: '2rem', marginTop: 0 }}>Login</h2>
           <input type="text" name="username" placeholder="Username" required />
           <input type="password" name="password" placeholder="Password" required />
+          {errorMsg && (
+            <div style={{ color: '#ff4d4f', marginBottom: '1rem', textAlign: 'center' }}>
+              {errorMsg}
+            </div>
+          )}
           <Button type="submit" disabled={isLoading}>
             Login
           </Button>
