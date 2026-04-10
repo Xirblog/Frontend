@@ -19,26 +19,24 @@ export function PostPage() {
       if (!id) {
         return
       }
+
       try {
         const response = await fetchPostById(id)
-        if (response.status === 200 && response.data.length > 0) {
-          const fetchedPost = response.data[0]
-          console.log(response.data)
-          if (fetchedPost) {
-            setPost(fetchedPost)
 
-            const token = localStorage.getItem('access_token')
-            if (token) {
-              try {
-                const decoded = jwtDecode<{ sub?: string; id?: string }>(token)
-                const currentUserId = decoded.id ?? decoded.sub
-                if (currentUserId && fetchedPost.authorId === currentUserId) {
-                  setIsAuthor(true)
-                }
-              } catch (e) {
-                console.error('Failed to decode token', e)
-              }
+        const fetchedPost = response.data
+        setPost(response.data)
+
+        const token = localStorage.getItem('access_token')
+
+        if (token) {
+          try {
+            const decoded = jwtDecode<{ sub?: string; id?: string }>(token)
+            const currentUserId = decoded.id ?? decoded.sub
+            if (currentUserId && fetchedPost.authorId === currentUserId) {
+              setIsAuthor(true)
             }
+          } catch (e) {
+            console.error('Failed to decode token', e)
           }
         }
       } catch (error) {

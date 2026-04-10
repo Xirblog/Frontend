@@ -16,7 +16,7 @@ export function fetchPosts() {
 }
 
 export function fetchPostById(postId: string) {
-  return apiClient.get<Post[]>(`/posts/${postId}`)
+  return apiClient.get<Post>(`/posts/${postId}`)
 }
 
 export function updatePost(postId: string, request: CreatePostRequest) {
