@@ -4,7 +4,11 @@ import { Button } from '@shared/ui/button'
 import * as React from 'react'
 import { createPost, type CreatePostRequest } from '@entities/post/api/postApi.ts'
 
-export function CreatePostModal() {
+interface CreatePostModalProps {
+  onPostCreated?: (postId: string) => void | Promise<void>
+}
+
+export function CreatePostModal({ onPostCreated }: CreatePostModalProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   function getStringField(formData: FormData, fieldName: string): string {
@@ -29,6 +33,9 @@ export function CreatePostModal() {
       if (response.status === 200) {
         const post_id = response.data
         console.log('Create post with id: ', post_id)
+        if (onPostCreated) {
+          void onPostCreated(post_id)
+        }
       }
     } catch (error) {
       console.error('Failed to create post, ', error)
