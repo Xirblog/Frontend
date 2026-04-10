@@ -14,8 +14,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setIsAuthenticated(false)
     localStorage.removeItem('is_authenticated')
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('refresh_token')
+    document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   }
 
   return (

@@ -5,14 +5,14 @@ import ReactMarkdown from 'react-markdown'
 import Modal from 'react-modal'
 import { Button } from '@shared/ui/button'
 import * as React from 'react'
-import { jwtDecode } from 'jwt-decode'
+import { Navbar } from '@widgets/navbar'
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>()
   const [post, setPost] = useState<Post | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [isAuthor, setIsAuthor] = useState(false)
+  const [isAuthor, _] = useState(false)
 
   useEffect(() => {
     async function loadPost() {
@@ -26,18 +26,16 @@ export function PostPage() {
         const fetchedPost = response.data
         setPost(response.data)
 
-        const token = localStorage.getItem('access_token')
+        console.log('fetched post: ', fetchedPost)
 
-        if (token) {
-          try {
-            const decoded = jwtDecode<{ sub?: string; id?: string }>(token)
-            const currentUserId = decoded.id ?? decoded.sub
-            if (currentUserId && fetchedPost.authorId === currentUserId) {
-              setIsAuthor(true)
-            }
-          } catch (e) {
-            console.error('Failed to decode token', e)
-          }
+        try {
+          // TODO: call to users/me
+          // const currentUserId = userResponse.data.id ?? userResponse.data.sub
+          // if (currentUserId && fetchedPost.authorId === currentUserId) {
+          //   setIsAuthor(true)
+          // }
+        } catch (e) {
+          console.error('Failed to get current user to check authorship', e)
         }
       } catch (error) {
         console.error('Failed to load post', error)
@@ -73,67 +71,81 @@ export function PostPage() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <>
+        <Navbar />
+        <div>Loading...</div>
+      </>
+    )
   }
+
   if (!post) {
-    return <div>Post not found</div>
+    return (
+      <>
+        <Navbar />
+        <div>Post not found</div>
+      </>
+    )
   }
 
   return (
-    <div className="post-page">
-      <h1>{post.name}</h1>
-      <p>{post.description}</p>
+    <>
+      <Navbar />
+      <div className="post-page">
+        <h1>{post.name}</h1>
+        <p>{post.description}</p>
 
-      <div className="markdown-content">
-        <ReactMarkdown>{post.markdownContent}</ReactMarkdown>
-      </div>
+        <div className="markdown-content">
+          <ReactMarkdown>{post.markdownContent}</ReactMarkdown>
+        </div>
 
-      {isAuthor && (
-        <Button
-          onClick={() => {
-            setIsEditing(true)
-          }}
-        >
-          Edit Post
-        </Button>
-      )}
-
-      {isAuthor && (
-        <Modal
-          isOpen={isEditing}
-          onRequestClose={() => {
-            setIsEditing(false)
-          }}
-          contentLabel="Edit Post Modal"
-        >
-          <button
-            className="modal-close-btn"
+        {isAuthor && (
+          <Button
             onClick={() => {
+              setIsEditing(true)
+            }}
+          >
+            Edit Post
+          </Button>
+        )}
+
+        {isAuthor && (
+          <Modal
+            isOpen={isEditing}
+            onRequestClose={() => {
               setIsEditing(false)
             }}
-            aria-label="Close"
+            contentLabel="Edit Post Modal"
           >
-            &times;
-          </button>
-          <h2 style={{ marginTop: 0 }}>Edit Post</h2>
-          <form
-            onSubmit={(e) => {
-              void handleEditSubmit(e)
-            }}
-          >
-            <input type="text" name="name" defaultValue={post.name} required />
-            <input type="text" name="description" defaultValue={post.description} required />
-            <textarea
-              name="markdownContent"
-              defaultValue={post.markdownContent}
-              required
-              rows={10}
-              cols={50}
-            />
-            <Button type="submit">Save</Button>
-          </form>
-        </Modal>
-      )}
-    </div>
+            <button
+              className="modal-close-btn"
+              onClick={() => {
+                setIsEditing(false)
+              }}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h2 style={{ marginTop: 0 }}>Edit Post</h2>
+            <form
+              onSubmit={(e) => {
+                void handleEditSubmit(e)
+              }}
+            >
+              <input type="text" name="name" defaultValue={post.name} required />
+              <input type="text" name="description" defaultValue={post.description} required />
+              <textarea
+                name="markdownContent"
+                defaultValue={post.markdownContent}
+                required
+                rows={10}
+                cols={50}
+              />
+              <Button type="submit">Save</Button>
+            </form>
+          </Modal>
+        )}
+      </div>
+    </>
   )
 }
