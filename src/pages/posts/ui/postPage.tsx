@@ -6,13 +6,14 @@ import Modal from 'react-modal'
 import { Button } from '@shared/ui/button'
 import * as React from 'react'
 import { Navbar } from '@widgets/navbar'
+import { getCurrentUser } from '@entities/user'
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>()
   const [post, setPost] = useState<Post | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [isAuthor, _] = useState(false)
+  const [isAuthor, setIsAuthor] = useState(false)
 
   useEffect(() => {
     async function loadPost() {
@@ -29,11 +30,11 @@ export function PostPage() {
         console.log('fetched post: ', fetchedPost)
 
         try {
-          // TODO: call to users/me
-          // const currentUserId = userResponse.data.id ?? userResponse.data.sub
-          // if (currentUserId && fetchedPost.authorId === currentUserId) {
-          //   setIsAuthor(true)
-          // }
+          const userResponse = await getCurrentUser()
+
+          if (userResponse.data.userId === fetchedPost.authorId) {
+            setIsAuthor(true)
+          }
         } catch (e) {
           console.error('Failed to get current user to check authorship', e)
         }
