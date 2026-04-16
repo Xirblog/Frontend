@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
 import { Button } from '@shared/ui/button'
+import { isAxiosError } from 'axios'
 
 export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -45,8 +46,23 @@ export function RegisterPage() {
       console.log('Successfully registered')
     } catch (error: unknown) {
       console.error('Failed to register: ', error)
-      const err = error as { response?: { data?: { message?: string } }; message?: string }
-      setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to register')
+
+      if (!isAxiosError(error)) {
+        return
+      }
+
+      switch (error.status) {
+        case 409:
+          setErrorMsg('User already exists')
+          break
+        case 503:
+          setErrorMsg('Backend service not available')
+          break
+        default: {
+          const err = error as { response?: { data?: { message?: string } }; message?: string }
+          setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to register')
+        }
+      }
     } finally {
       setIsLoading(false)
     }

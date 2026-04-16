@@ -5,6 +5,7 @@ import type { SubmitEvent } from 'react'
 import { useAuth } from '@app/providers/useAuth.ts'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@shared/ui/button'
+import { isAxiosError } from 'axios'
 
 export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -38,10 +39,25 @@ export function LoginPage() {
       }
 
       console.log('Successfully logged in.')
-    } catch (error: unknown) {
+    } catch (error) {
       console.error('Failed to login in: ', error)
-      const err = error as { response?: { data?: { message?: string } }; message?: string }
-      setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to login')
+
+      if (!isAxiosError(error)) {
+        return
+      }
+
+      switch (error.status) {
+        case 404:
+          setErrorMsg('Account not found')
+          break
+        case 401:
+          setErrorMsg('Invalid email or password')
+          break
+        default: {
+          const err = error as { response?: { data?: { message?: string } }; message?: string }
+          setErrorMsg(err.response?.data?.message ?? err.message ?? 'Failed to login')
+        }
+      }
     } finally {
       setIsLoading(false)
     }
