@@ -32,7 +32,7 @@ export function CreatePostModal({ onPostCreated }: CreatePostModalProps) {
 
       const response = await createPost(request)
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         const post_id = response.data
         console.log('Create post with id: ', post_id)
         if (onPostCreated) {
