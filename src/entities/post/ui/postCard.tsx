@@ -8,6 +8,12 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, actions }: PostCardProps) {
+  const maxLength = 100
+  const displayDescription =
+    post.description.length > maxLength
+      ? `${post.description.slice(0, maxLength)}...`
+      : post.description
+
   return (
     <div className="post-card">
       <Link
@@ -15,7 +21,7 @@ export function PostCard({ post, actions }: PostCardProps) {
         style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
       >
         <h3 style={{ margin: 0, color: 'var(--primary-color)' }}>{post.name}</h3>
-        <span style={{ color: 'var(--text-color)', opacity: 0.8 }}>{post.description}</span>
+        <span style={{ color: 'var(--text-color)', opacity: 0.8 }}>{displayDescription}</span>
       </Link>
       {actions && <div style={{ marginTop: '1rem' }}>{actions}</div>}
     </div>

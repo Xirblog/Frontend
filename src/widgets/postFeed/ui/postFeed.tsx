@@ -12,7 +12,7 @@ export function PostFeed({ posts, isLoading }: PostFeedProps) {
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div className="post-feed-grid">
         {posts.map((post) => (
           <PostCard key={post.postId} post={post} />
         ))}

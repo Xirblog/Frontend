@@ -220,6 +220,18 @@ ol {
   font-weight: 600;
 }
 
+.post-feed-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+  .post-feed-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .post-card {
   display: flex;
   flex-direction: column;
